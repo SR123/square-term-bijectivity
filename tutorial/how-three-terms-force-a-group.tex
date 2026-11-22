@@ -5,7 +5,7 @@
 \usepackage[top=23mm,bottom=24mm,left=25mm,right=25mm,headheight=15pt]{geometry}
 \usepackage[dvipsnames]{xcolor}
 \definecolor{inkblue}{HTML}{214A61}
-\usepackage[colorlinks=true,urlcolor=inkblue,linkcolor=inkblue,pdftitle={How three terms force a finite group action},pdfauthor={Søren Riis}]{hyperref}
+\usepackage[colorlinks=true,urlcolor=inkblue,linkcolor=inkblue,citecolor=inkblue,pdftitle={How three terms force a finite group action},pdfauthor={Søren Riis}]{hyperref}
 \pagestyle{fancy}\fancyhf{}
 \fancyhead[L]{\small\color{inkblue}Square term bijectivity}\fancyhead[R]{\small\color{inkblue}Companion tutorial}
 \fancyfoot[C]{\small\thepage}
@@ -30,13 +30,13 @@ The resulting triple sends each input in \(A^3\) to one output in \(A^3\). Can w
 For example, \((x,x,z)\) misses every output whose first two entries differ. By contrast, \((x,D(x,y),z)\) is reversible exactly when every row \(D(x,-)\) permutes the alphabet. Once the output tells us \(x\), we know which row to invert. The proof will use this simple observation with a more carefully chosen row index.
 
 \stephead{Why use group words?}
-A finite presentation gives finitely many generators and defining equations, called relators. A word \(w\) \emph{survives in a finite quotient} if there is a homomorphism onto a finite group in which the value of \(w\) differs from the identity. For one fixed finite presentation this question is undecidable as \(w\) varies (Bridson--Wilton, Theorem 2.1). We will turn each word into three expressions \(T_w\) satisfying
+A finite presentation gives finitely many generators and defining equations, called relators. A word \(w\) \emph{survives in a finite quotient} if there is a homomorphism onto a finite group in which the value of \(w\) differs from the identity. Bridson and Wilton extract from Slobodskoi’s construction~\cite{Slobodskoi} a fixed presentation for which this question is undecidable as \(w\) varies~\cite[Theorem~2.1]{BW}. We will turn each word into three expressions \(T_w\) satisfying
 \[
  \text{\(T_w\) is bijective on some finite \(A^3\), \(|A|\ge2\)}
  \quad\Longleftrightarrow\quad
  \text{\(w\) survives in a finite quotient.}
 \]
-The small presentation \(\langle g\mid g^2=1\rangle\) will illustrate both directions. The undecidability input is the fixed presentation in the cited theorem.
+The small presentation \(\langle g\mid g^2=1\rangle\) will illustrate both directions. The reduction proves Theorem~1 of the companion paper~\cite{Square} and resolves the three-variable question posed in~\cite[Problem~6.1]{TC}.
 
 \stephead{How three outputs can express many conditions}
 Compose a list of triples by substituting all three outputs of one into the next. Substitution produces three ordinary terms. If one stage on a finite cube has image size less than \(|A|^3\), the composite has image size at most that small, wherever that stage occurs. Thus a bijective composite makes every stage bijective. We can reuse the same three coordinates for any finite list of tests.
@@ -54,7 +54,7 @@ A superscript \(2\) on a unary map means apply it twice. The first test
 \(C(i,j,k)=(j,D(i,j),k)\) is bijective. Fixing its first and last outputs shows that each column \(i\mapsto D(i,j)\) is a permutation. In particular we can solve \(D(i,j)=s\) for any fixed \(j,s\).
 
 \stephead{The collision that isolates a single row}
-Circle the entry \(G(o,o)\). Suppose that the same value appeared at \(G(c,s)\) with \(c\ne o\). The second test is
+The marker lemma~\cite[Lemma~2]{Square} begins by circling the entry \(G(o,o)\). Suppose that the same value appeared at \(G(c,s)\) with \(c\ne o\). The second test is
 \[
  M(a,u,z)=\bigl(a,U_u^2(y),U_u^2(L_{u,z}(y))\bigr),
  \qquad y=L_{a,z}^2(U_a(o)).
@@ -171,7 +171,7 @@ For any interpretation the image size is exactly \(n^{d-3}|\operatorname{im}T_w^
 \stephead{At the threshold \(n^d+1\)}
 For a general input tuple, draw the graph of its distinct subterms, merging repeated occurrences. Add the input variables and draw arrows from immediate arguments to the term they form. A \emph{cut} meets every path from an input to an output, including a length-zero path when an input is an output. Let \(\rho\) be the smallest cut size and \(s\) the number of vertices. Values on a cut determine all outputs, hence \(\disp_n(T)\le n^\rho\). This already rules out the extra output if \(\rho\le d\).
 
-In the opposite direction the term-cut theorem gives \(\disp_{sm}(T)\ge m^\rho\). If \(\rho\ge d+1\), choose \(m=s^d+1\), so \(m^\rho\ge m^{d+1}>(sm)^d\). There is at least one extra output at \(n=sm\). Thus it suffices to compute \(\rho\), a polynomial-time vertex-cut calculation by max-flow. A large witness alphabet never has to be constructed by the decision algorithm.
+The term-cut theorem of Riis and Gadouleau~\cite{RG}, in the finite-alphabet form of~\cite[Theorem~5.5(b)]{TC}, gives \(\disp_{sm}(T)\ge m^\rho\). If \(\rho\ge d+1\), choose \(m=s^d+1\), so \(m^\rho\ge m^{d+1}>(sm)^d\). There is at least one extra output at \(n=sm\). Thus it suffices to compute \(\rho\), a polynomial-time vertex-cut calculation by max-flow~\cite[\S5.5]{TC}. A large witness alphabet never has to be constructed by the decision algorithm.
 
 \stephead{An example on the easy side}
 For the identity tuple \((x,y,z,u)\) the four disjoint length-zero paths give \(\rho=4\). At \(d=3,n=2\) its \(16\) outputs exceed \(2^3+1=9\). For a padded hard tuple with \(d=3\), the constant fourth output caps the image at \(n^3\), even when the underlying word survives. Other tuples in the same input class can pass the higher threshold. The two thresholds therefore concern the same set of possible input tuples.
@@ -190,18 +190,52 @@ Can every separating finite quotient yield tables? & \texttt{SquareWitness.lean}
 Where does the gap enter? & \texttt{SquareGap.lean} proves the exact padded threshold and the strict criterion from explicit cut and routing hypotheses.\\
 \bottomrule
 \end{tabularx}\end{center}
-In the paper the routing estimate at alphabet sizes \(sm\) suffices. Lean's numerical lemma uses the eventual estimate \(n^\rho\le K\,\disp_n(T)\), for a fixed \(K\) and all sufficiently large \(n\). The same published term-cut theorem supplies both estimates. The undecidability input about finite groups and the polynomial-time analysis of max-flow are cited results. The accompanying build instructions identify the dependencies and the checked statements.
+In the paper the routing estimate at alphabet sizes \(sm\) suffices. Lean's numerical lemma uses the eventual estimate \(n^\rho\le K\,\disp_n(T)\), for a fixed \(K\) and all sufficiently large \(n\). Theorem~5.5(b) of~\cite{TC} gives both estimates. The undecidability input about finite groups and the polynomial-time analysis of max-flow are cited results. The accompanying build instructions identify the dependencies and the checked statements.
 
 \stephead{How this fits with the earlier one-unit paper}
-In \emph{One Unit Separates Polynomial Time from Undecidability in Term Coding}, the first two outputs are \(x,y\) and the inputs satisfy \(x\ne y\), with further disequality tests permitted. For \(d\ge2\) the adjacent thresholds there are \(n^d-n^{d-1}\) and \(n^d-n^{d-1}+1\). The factor \(n(n-1)\) counts ordered pairs of different symbols. Its 71-module Lean development checks the filtered construction, finite-group reduction, cut and routing arguments, and the strict criterion. The present construction admits the whole cube and obtains the adjacent thresholds \(n^d\) and \(n^d+1\) for \(d\ge3\). The new step is to enforce equations on every point by reversibility of ordinary terms.
+In the earlier one-unit theorem~\cite[Theorem~1.1]{OneUnit}, the first two outputs are \(x,y\) and the inputs satisfy \(x\ne y\), with further disequality tests permitted. For \(d\ge2\) the adjacent thresholds there are \(n^d-n^{d-1}\) and \(n^d-n^{d-1}+1\). The factor \(n(n-1)\) counts ordered pairs of different symbols. The accompanying Lean archive~\cite{EarlierLean}, whose scope is described in~\cite[\S8]{OneUnit}, checks the filtered construction, finite-group reduction, cut and routing arguments, and the strict criterion. The present construction admits the whole cube and obtains the adjacent thresholds \(n^d\) and \(n^d+1\) for \(d\ge3\). The new step is to enforce equations on every point by reversibility of ordinary terms.
 
-\stephead{Further reading}
-{\small
-\href{https://arxiv.org/html/2504.16265v4#S8}{Riis, \emph{One Unit Separates Polynomial Time from Undecidability in Term Coding}, \S8}, with
-\href{https://github.com/SR123/term-coding-disequality-lean}{earlier Lean sources} and
-\href{https://doi.org/10.5281/zenodo.22727895}{archived earlier verification}.
+\stephead{Where the three-variable question was left open}
+The 2025 preprint~\cite[\S7.1]{Early} claimed undecidability for square tuples. The later account~\cite[\S1]{OneUnit} explains the gap in that argument. The problem was stated explicitly in~\cite[Problem~6.1]{TC}. The marker lemma in the companion paper~\cite[Lemma~2]{Square} supplies the missing way to force an equation using only ordinary terms.
 
-\href{https://arxiv.org/html/2602.08110v2#S5}{Riis, \emph{Term Coding and Dispersion}, Theorem 5.5 and \S5.5} gives the term-cut bounds and algorithm. Problem 6.1 asks the three-variable question.
+\clearpage
+\begin{thebibliography}{9}
+\setlength{\itemsep}{5pt}
+\bibitem{Square}
+S.~Riis. \emph{Undecidability of the square term matrix problem}. Research preprint, 2026. Theorem~1, Lemma~2 and Corollary~3.
+\href{https://doi.org/10.5281/zenodo.24448188}{doi:10.5281/zenodo.24448188}.
+\href{https://github.com/SR123/square-term-bijectivity}{Paper and Lean sources on GitHub}.
 
-\href{https://doi.org/10.1007/s00222-015-0578-8}{Bridson and Wilton, \emph{The triviality problem for profinite completions}}, Theorem 2.1, gives the fixed presentation used as the starting point.}
+\bibitem{Slobodskoi}
+A.~M.~Slobodskoi. Unsolvability of the universal theory of finite groups. \emph{Algebra and Logic} \textbf{20}(2) (1981), 139--156.
+\href{https://doi.org/10.1007/BF01735740}{doi:10.1007/BF01735740}.
+
+\bibitem{BW}
+M.~R.~Bridson and H.~Wilton. The triviality problem for profinite completions. \emph{Inventiones Mathematicae} \textbf{202}(2) (2015), 839--874.
+\href{https://doi.org/10.1007/s00222-015-0578-8}{doi:10.1007/s00222-015-0578-8}.
+Theorem~2.1 is the fixed-presentation statement.
+
+\bibitem{RG}
+S.~Riis and M.~Gadouleau. Max-flow min-cut theorems on dispersion and entropy measures for communication networks. \emph{Information and Computation} \textbf{267} (2019), 49--73.
+\href{https://doi.org/10.1016/j.ic.2019.03.004}{doi:10.1016/j.ic.2019.03.004}.
+
+\bibitem{TC}
+S.~Riis. \emph{Term Coding and Dispersion: Exact and Asymptotic Decision Problems}. \href{https://arxiv.org/abs/2602.08110v2}{arXiv:2602.08110v2}, 2026.
+\href{https://arxiv.org/html/2602.08110v2#S5.Thmdefinition5}{Theorem~5.5} gives the finite-alphabet bounds.
+\href{https://arxiv.org/html/2602.08110v2#S5.SS5}{Section~5.5} gives the algorithm and
+\href{https://arxiv.org/html/2602.08110v2#S6.Thmproblem1}{Problem~6.1} asks about triples.
+
+\bibitem{Early}
+S.~Riis. \emph{Term Coding for Extremal Combinatorics: Dispersion and Complexity Dichotomies}. \href{https://arxiv.org/abs/2504.16265v3}{arXiv:2504.16265v3}, 2025, \S7.1.
+
+\bibitem{OneUnit}
+S.~Riis. \emph{One Unit Separates Polynomial Time from Undecidability in Term Coding}. \href{https://arxiv.org/abs/2504.16265v4}{arXiv:2504.16265v4}, 2026.
+\href{https://arxiv.org/html/2504.16265v4#S1.Thmtheorem1}{Theorem~1.1} treats disequality tests.
+\href{https://arxiv.org/html/2504.16265v4#S8}{Section~8} describes the verification.
+
+\bibitem{EarlierLean}
+S.~Riis. \emph{Lean verification and interactive proof companion to ‘One Unit Separates Polynomial Time from Undecidability in Term Coding’ (Paper 3)}. Software, version 1.0.0, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.22727895}{doi:10.5281/zenodo.22727895}.
+\href{https://github.com/SR123/term-coding-disequality-lean}{Lean sources on GitHub}.
+\end{thebibliography}
 \end{document}
