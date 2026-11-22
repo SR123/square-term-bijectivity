@@ -2,6 +2,8 @@
 
 **Søren Riis · Queen Mary University of London**
 
+**Cite this version** · Søren Riis (2026), *Undecidability of the square term matrix problem*, version 1.0.0. [Paper, tutorial and Lean archive on Zenodo](https://doi.org/10.5281/zenodo.24448188).
+
 Can three expressions in three variables encode their inputs without losing information? Each operation symbol is free to take any table, provided that every occurrence uses the same table. The paper proves that no algorithm can decide whether a given triple is bijective on the cube of **some finite alphabet of size at least two**. A single constant and three binary operation symbols suffice.
 
 **[Read the three-page paper](paper/square-term-bijectivity.pdf)** · **[Work through the proof with examples](tutorial/how-three-terms-force-a-group.pdf)** · **[Check the Lean formalisation](lean/README.md)**
@@ -42,3 +44,7 @@ Each PDF builds from its single source file with a standard TeX Live installatio
 latexmk -cd -pdf paper/square-term-bijectivity.tex
 latexmk -cd -pdf tutorial/how-three-terms-force-a-group.tex
 ```
+
+## Licences
+
+The paper and tutorial are available under CC BY 4.0, and the Lean code under Apache 2.0. [Licence details and upstream attribution](LICENSE.md).
