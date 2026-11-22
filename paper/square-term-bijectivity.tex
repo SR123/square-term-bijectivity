@@ -1,0 +1,191 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=24mm,top=21mm,bottom=21mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[hidelinks,pdftitle={Undecidability of the square term matrix problem},pdfauthor={Søren Riis}]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\DeclareMathOperator{\Disp}{Disp}
+\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\A}{\mathcal A}
+\newcommand{\word}[1]{[#1]}
+\setlength{\emergencystretch}{1em}
+\begin{document}
+\setlength{\abovedisplayskip}{6pt plus 2pt minus 2pt}
+\setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}
+\setlength{\abovedisplayshortskip}{3pt plus 1pt minus 1pt}
+\setlength{\belowdisplayshortskip}{4pt plus 1pt minus 1pt}
+\begin{center}
+{\LARGE\bfseries Undecidability of the square term matrix problem\par}
+\medskip
+{\large S{\o}ren Riis\par}
+{\small Queen Mary University of London\quad $\cdot$ \quad 22 November 2026\par}
+\end{center}
+\begin{abstract}
+It is undecidable whether three terms in three variables can define a bijection on \(A^3\) for some finite \(A\) with \(|A|\ge2\), even with one constant and three binary symbols. A marker lemma lets us force a pointwise identity \(t(x)=x\) by bijectivity alone. When two fixed triples are bijective, the lemma confines a distinguished table value to one row. Any two rows required to be onto must then have the same index. For ordinary term tuples and each fixed \(d\ge3\), attaining at least \(n^d\) outputs for some alphabet size \(n\ge2\) is undecidable. Raising the threshold by one gives a polynomial-time decision problem.
+\end{abstract}
+
+\section{The square problem}
+An interpretation on a finite alphabet \(A\) assigns each constant a value and each operation symbol a table shared by all its occurrences. An \emph{ordinary term tuple} \(T=(t_1,\ldots,t_r)\) in \(k\) listed variables admits all of \(A^k\). Some variables may be unused. When \(r=k\), we call \(T\) a \emph{square term matrix} and ask whether it can be bijective on some finite \(A^k\) with \(|A|\ge2\).
+
+How can bijectivity force an equation when the tables are free to choose? Suppose a test copies \(x,z\) and maps the remaining input through a row of \(G\). For fixed \(x,z\), bijectivity forces that row to contain every value. By the \hyperref[lem:marker]{marker lemma}, bijectivity of two fixed triples confines one such value, \(G(o,o)\), to row \(o\). Applying the row test with indices \(D(t(x),x)\) and \(D(x,x)\) therefore forces both indices to equal \(o\). Injectivity of column \(D(-,x)\) then gives \(t(x)=x\) for every \(x\).
+
+\begin{theorem}\label{thm:main}
+The finite square term matrix problem is undecidable for \(k=3\), with the signature fixed to one constant \(o\) and three binary symbols \(D,G,H\). The same holds for every fixed \(k\ge3\).
+\end{theorem}
+
+By Slobodskoi's theorem in the form of Bridson and Wilton \cite[Theorem~2.1]{BW}, fix a finite presentation \(P=\langle g_1,\ldots,g_m\mid r_1,\ldots,r_\ell\rangle\) for which it is undecidable whether a word \(w\) has nonidentity image in some finite quotient. Our triple \(T_w\) tests this by composing triples through simultaneous substitution. On a finite cube the composite is bijective exactly when each factor is.
+
+\section{How bijectivity forces an equation}
+Bijectivity of the column test \(C\) lets us exhibit a collision in \(M\) if the \emph{marker} \(G(o,o)\) appears in a second row. Write \(L_{a,z}(s)=D(a,G(z,s))\) and \(U_a=L_{a,o}\). Powers denote repeated application.
+\begin{align}
+ C(i,j,k)&=(j,D(i,j),k),\label{eq:col}\\
+ M(a,u,z)&=\bigl(a,U_u^2(y),U_u^2(L_{u,z}(y))\bigr),
+       &y&=L_{a,z}^2(U_a(o)).\label{eq:mark}
+\end{align}
+
+\begin{lemma}[Marker lemma]\label{lem:marker}
+If \(C^\A\) and \(M^\A\) are bijective, each column \(D^\A(-,j)\) is a permutation and only row \(o^\A\) of \(G^\A\) contains the marker. Hence every surjective row of \(G^\A\) has index \(o^\A\).
+\end{lemma}
+\begin{proof}
+Fix the interpretation and omit superscripts. Fixing \(j,k\) in \(C\) gives the column assertion. Suppose \(G(c,s)=G(o,o)\) with \(c\ne o\). By column surjectivity choose \(a\) with \(D(a,G(o,o))=s\). Then \(U_a(o)=s\) and \(L_{a,c}(s)=s\). Put \(h=U_a^2(s)\) and choose \(v\) with \(U_v(h)=D(v,G(o,h))=h\), again by column surjectivity. The two evaluations of \eqref{eq:mark} are
+\[
+\begin{alignedat}{2}
+ y&=L_{a,c}^2(s)=s,\qquad &M(a,a,c)&=(a,U_a^2(s),U_a^2(s))=(a,h,h),\\
+ y&=U_a^2(s)=h, &M(a,v,o)&=(a,U_v^2(h),U_v^3(h))=(a,h,h).
+\end{alignedat}
+\]
+The third input coordinates \(c\) and \(o\) differ, contradicting injectivity of \(M\).
+\end{proof}
+
+For a unary term \(t\), the \emph{row test} is \(R_t(x,v,z)=(x,G(D(t(x),x),v),z)\). If \(R_t\) and the identity-term test \(R_{\id}\) are onto, both selected rows contain the marker for each \(x\). With \(C,M\) bijective, Lemma~\ref{lem:marker} gives \(D(t(x),x)=o=D(x,x)\). Injectivity of column \(D(-,x)\) gives \(t(x)=x\) for every \(x\).
+
+\newpage
+\noindent\emph{Choosing tables for a witness.} The argument above applies to arbitrary tables. To construct a witness, label any \(n\)-element alphabet by \(\Z/n\Z\), with \(o^\A\) labelled \(0\), and choose
+\[
+ D^{\A}(i,j)=i-j,\qquad G^{\A}(0,s)=-s,\qquad
+ G^{\A}(z,s)=-z\quad (z\ne0).
+\]
+Arithmetic here specifies the entries of the tables. For \(n=3\) they are
+\[
+ \begin{array}{c|ccc}
+ D^\A & 0&1&2\\ \hline
+ 0&0&2&1\\
+ 1&1&0&2\\
+ 2&2&1&0
+ \end{array}
+ \qquad\qquad
+ \begin{array}{c|ccc}
+ G^\A & 0&1&2\\ \hline
+ 0&0&2&1\\
+ 1&2&2&2\\
+ 2&1&1&1
+ \end{array}
+\]
+For general \(n\), each column of \(D^{\A}\) is a permutation, so \(C^{\A}\) is bijective. For fixed \(a\), the last two outputs \((X,Y)\) of \(M^{\A}(a,u,z)\) are
+\[
+ (X,Y)=
+ \begin{cases}
+ (2u+3a,\,3u+3a) & z=0,\\
+ (2u+a+z,\,3u+z) & z\ne0 .
+ \end{cases}
+\]
+Recover \(z=3X-2Y-3a\), then \(u=Y-X\) if \(z=0\) and \(u=Y-X+a\) otherwise. This works modulo every \(n\). Since \(D^{\A}(x,x)=0\) and \(G^{\A}(0,v)=-v\), each identity \(t^{\A}(x)=x\) makes \(R_t^{\A}(x,v,z)=(x,-v,z)\).
+
+\section{From a group word to three terms}
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Number the signed letters of \(P\) as \(\lambda_1,\ldots,\lambda_{2m}\). Each ground term \(c_j\) is a \emph{tag} selecting the row of \(H\) that acts as the letter \(\lambda_j\). Set
+\[
+ c_0=o,\quad c_j=H(o,c_{j-1})\quad(1\le j\le2m),\qquad S_{\lambda_j}(x)=H(c_j,x).
+\]
+For a word \(v=\lambda_{i_1}\cdots\lambda_{i_s}\), let \(\word v=S_{\lambda_{i_1}}\circ\cdots\circ S_{\lambda_{i_s}}\), with the empty word interpreted as the identity. Compose \(C,M,R_{\id}\) and the \(R_t\) tests enforcing
+\[
+ S_{g_i}S_{g_i^{-1}}(x)=x=S_{g_i^{-1}}S_{g_i}(x)
+       \quad(1\le i\le m),\qquad
+ \word{r_j}(x)=x\quad(1\le j\le\ell).
+\]
+Put \(b=\word w(o)\). To obtain \(T_w\), append the \emph{word test}
+\[
+             E_b(v,t,z)=\bigl(D(G(o,v),t),D(G(b,v),t),z\bigr).
+\]
+\emph{From a quotient to a bijection.}
+Let \(K\) be a finite quotient with \(\bar w\ne1\). Take \(A=K\times\{0,\ldots,2m\}\) and \(o^{\A}=(1,0)\). For \(1\le j\le2m\), set the entries below and fill the others arbitrarily.
+\[
+ H^{\A}\bigl(o^{\A},(1,j-1)\bigr)=(1,j),\qquad
+ H^{\A}\bigl((1,j),(h,t)\bigr)=(\bar\lambda_j h,t).
+\]
+The first rule gives \(c_j^{\A}=(1,j)\). The distinct letter rows act by left multiplication, so they satisfy every inverse and relator identity. Thus \(b^{\A}=(\bar w,0)\ne o^{\A}\). Number \(A\) cyclically with \(o^{\A}\) labelled \(0\), and choose \(D^{\A},G^{\A}\) as above. All row tests pass. If \(\beta\) is the nonzero label of \(b^{\A}\), the first two outputs of \(E_b^{\A}\) are \(X=-v-t,\ Y=-\beta-t\). They determine \(t=-\beta-Y\) and \(v=-X-t\), so the last test passes as well.
+
+\emph{Conversely, from a bijection to a quotient.}
+Start with arbitrary tables on a finite \(A\), \(|A|\ge2\), for which \(T_w^\A\) is bijective. Each factor is bijective. By Lemma~\ref{lem:marker} and the row tests, \(S_{g_i}^\A\) and \(S_{g_i^{-1}}^\A\) are inverse permutations and every relator acts as the identity. Hence \(g_i\mapsto S_{g_i}^\A\) defines a homomorphism \(\phi:P\to\Sym(A)\). The group operation in \(\phi(P)\) is composition of the letter permutations. If \(b^\A=o^\A\), the first two outputs of \(E_b^\A\) agree on every input, contradicting surjectivity. Thus \(\phi(w)\) moves \(o^\A\), and \(\phi(P)\) is a finite quotient in which \(w\) survives.
+
+The construction is effective. For \(k>3\), carry the remaining \(k-3\) coordinates unchanged.
+\end{proof}
+
+The square-bijectivity claim in \cite[Theorem~7.1]{early} was withdrawn because the proposed simulation left the forcing step open \cite[Remark~7.1]{TC}. Theorem~\ref{thm:main} proves the claim by a different reduction, answering \cite[Problem~6.1]{TC}. With the term-cut theorem of Riis and Gadouleau~\cite{RG}, this gives the one-unit gap below.
+
+\newpage
+\noindent\emph{A three-point witness with nonassociative addition.}
+Take \(P=\langle g\mid g^2=1\rangle\) and \(w=g\). On \(A=\{0,1,2\}\), use arithmetic modulo three to set
+\[
+ o^{\mathcal B}=0,\quad D^{\mathcal B}(i,j)=j-i,\quad G^{\mathcal B}(0,s)=s,\quad
+ G^{\mathcal B}(z,s)=z\quad(z\ne0).
+\]
+The rows of \(H^{\mathcal B}\) are \((1,2,0),(1,0,2),(1,0,2)\). Both tags \(1,2\) select \(\tau=(0\,1)\), generating \(\{\id_A,\tau\}\) under composition. Since \(\tau^2=\id_A\), the row tests are identity maps, and \(b^{\mathcal B}=\tau(0)=1\).
+
+Each column of \(D^{\mathcal B}\) is a permutation. The marker test \(M^{\mathcal B}\) fixes \(a,z\) and sends \(u\) to \(u\) if \(z=0\) and to \(u-a+z\) otherwise. The word test sends \((v,t,z)\) to \((t-v,t-1,z)\). Thus the triple permutes all \(27\) inputs. The term \(x\oplus y=D(x,D(o,y))\) gives \(x+y\) for the cyclic tables above. Here it gives \(y-x\), so
+\[
+                 (1\oplus0)\oplus0=1,\qquad 1\oplus(0\oplus0)=2.
+\]
+
+\section{The one-unit dispersion gap}
+Write \(\Disp_n(T)=\max_\A|\operatorname{im}T^\A|\) over interpretations on \(n\) points. Fresh decoders \(h_i(T(\mathbf x))=x_i\) can recover at most one input per nonempty fibre, and choosing one in each attains this bound.
+
+\begin{corollary}[One extra output]\label{cor:gap}
+Fix \(d\ge3\). Given an ordinary term tuple \(T\), it is undecidable whether \(\Disp_n(T)\ge n^d\) for some \(n\ge2\). On the same inputs, it is decidable in polynomial time whether \(\Disp_n(T)\ge n^d+1\) for some \(n\ge2\). Both statements already hold for \(d+1\) terms in \(d+1\) variables over the fixed signature of Theorem~\ref{thm:main}.
+\par\smallskip\noindent\normalfont
+For a class of tuples with disequality tests, the Lean-checked one-unit theorem \cite[Theorem~1.1]{oneunit} gives the corresponding gap at \(n^d-n^{d-1}\) and \(n^d-n^{d-1}+1\).
+\end{corollary}
+\begin{proof}
+For the first claim, turn \(T_w\) into the tuple
+\[
+          (\mathbf x,\mathbf y,z)\longmapsto
+          \bigl(T_w(\mathbf x),\mathbf y,o\bigr),
+ \qquad \mathbf x\in A^3,\quad \mathbf y\in A^{d-3},\quad z\in A.
+\]
+The last input \(z\) is unused. The image has size \(n^{d-3}|\operatorname{im}T_w^\A|\), reaching \(n^d\) exactly when \(T_w^\A\) is bijective. At \(d=3\), the four outputs are the triple and the constant \(o\).
+
+Form the graph of distinct subterms, including the input variables, with edges from immediate arguments to terms. Let \(s\) be its number of vertices and \(\rho\) the minimum number meeting every input-to-output path, including paths of length zero. The term-cut bounds \cite[Theorem~5.5]{TC} give
+\[
+          \Disp_n(T)\le n^\rho\quad\hbox{for every }n,\qquad
+          \Disp_{s m}(T)\ge m^\rho\quad\hbox{for every integer }m\ge2.
+\]
+Thus \(\rho\le d\) rules out one extra output. If \(\rho\ge d+1\), take \(m=s^d+1\). Then \(m^\rho\ge m^{d+1}>(sm)^d\). The criterion \(\rho\ge d+1\) is decidable by max-flow in polynomial time \cite[\S5.5]{TC}.
+\end{proof}
+
+\smallskip\noindent\textbf{Acknowledgement.}
+I developed the argument interactively with the AI systems Astra and Claude. Astra~6.2 rebuilt and checked the Lean~4 formalisation of the finite-quotient equivalence and the padding in Corollary~\ref{cor:gap}. The group-theoretic undecidability theorem, term-cut bounds and max-flow running time enter as cited results. The accompanying materials include a tutorial, the Lean sources and build records.
+
+\begingroup\small
+\begin{thebibliography}{5}
+\setlength{\itemsep}{2pt}
+\bibitem{BW} M.~R.~Bridson and H.~Wilton.
+\href{https://doi.org/10.1007/s00222-015-0578-8}{The triviality problem for profinite completions}.
+\emph{Invent. Math.} 202 (2015), 839--874.
+\bibitem{RG} S.~Riis and M.~Gadouleau.
+\href{https://doi.org/10.1016/j.ic.2019.03.004}{Max-flow min-cut theorems on dispersion and entropy measures for communication networks}.
+\emph{Inform. and Comput.} 267 (2019), 49--73.
+\bibitem{early} S.~Riis. Term Coding for Extremal Combinatorics: Dispersion and Complexity Dichotomies.
+\href{https://arxiv.org/abs/2504.16265v3}{arXiv:2504.16265v3} (2025).
+\bibitem{TC} S.~Riis. Term Coding and Dispersion: Exact and Asymptotic Decision Problems.
+\href{https://arxiv.org/abs/2602.08110v2}{arXiv:2602.08110v2} (2026).
+\bibitem{oneunit} S.~Riis. One Unit Separates Polynomial Time from Undecidability in Term Coding.
+\href{https://arxiv.org/abs/2504.16265v4}{arXiv:2504.16265v4} (2026). \href{https://doi.org/10.5281/zenodo.22727895}{Lean archive for that paper}.
+\end{thebibliography}
+\endgroup
+\end{document}

@@ -1,0 +1,23 @@
+Lean 4.26.0, pinned dependency source checkouts and release caches.
+Project targets: PaperTriple and SquareGap.
+lake --no-cache --wfail build
+ℹ [1089/1110] Replayed Cycle372Collision
+info: Cycle372Collision.lean:67:0: 'Cycle372.exclusive' depends on axioms: [propext]
+info: Cycle372Collision.lean:68:0: 'Cycle372.constancy' depends on axioms: [propext]
+info: Cycle372Collision.lean:84:0: 'Cycle372.compile_identity' depends on axioms: [propext]
+info: Cycle372Collision.lean:127:0: 'Cycle372.decoder_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Cycle372Collision.lean:128:0: 'Cycle372.decoder_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [1106/1110] Replayed SquareReduction
+info: SquareReduction.lean:37:0: 'SquareBijection.compiledTriple_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: SquareReduction.lean:38:0: 'SquareBijection.arbitraryFiniteCarrier_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [1107/1110] Replayed PaperTriple
+info: PaperTriple.lean:247:0: 'SquareBijection.PaperTriple.finiteHom_passes_at_its_order' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: PaperTriple.lean:249:0: 'SquareBijection.PaperTriple.originalTriple_iff_finiteQuotient' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+ℹ [1109/1110] Built SquareGap (2.2s)
+info: SquareGap.lean:161:0: 'SquareBijection.exact_maximum_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: SquareGap.lean:162:0: 'SquareBijection.decoder_attains_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: SquareGap.lean:163:0: 'SquareBijection.padded_exact_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: SquareGap.lean:164:0: 'SquareBijection.oneUnit_iff_cutExponent' depends on axioms: [propext, Quot.sound]
+Build completed successfully (1110 jobs).

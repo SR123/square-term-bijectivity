@@ -1,0 +1,207 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,mathtools,amssymb,booktabs,tabularx,array,fancyhdr,enumitem}
+\usepackage[top=23mm,bottom=24mm,left=25mm,right=25mm,headheight=15pt]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{inkblue}{HTML}{214A61}
+\usepackage[colorlinks=true,urlcolor=inkblue,linkcolor=inkblue,pdftitle={How three terms force a finite group action},pdfauthor={Søren Riis}]{hyperref}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{inkblue}Square term bijectivity}\fancyhead[R]{\small\color{inkblue}Companion tutorial}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt plus 1pt minus 1pt}
+\setlist[enumerate]{leftmargin=*,topsep=3pt,itemsep=2pt}
+\newcommand{\id}{\mathrm{id}}\newcommand{\sym}{\mathrm{Sym}}\newcommand{\disp}{\mathrm{Disp}}
+\newcommand{\fA}{\mathcal A}
+\newcommand{\stephead}[1]{\par\smallskip{\large\bfseries\color{inkblue}#1}\par\nobreak}
+\newcommand{\checkit}[1]{\par\smallskip\textbf{Check.} #1}
+\newcommand{\answer}[1]{\par\textit{Answer.} #1}
+\begin{document}
+\thispagestyle{plain}
+{\Large\bfseries How three terms force a finite group action\par}
+{\large A companion to \emph{Undecidability of the square term matrix problem}\par}
+{\small Søren Riis \hfill 22 November 2026\par}
+\section{What is the decision problem?}\label{start}
+Write down three expressions in \(x,y,z\) using a constant \(o\) and binary symbols \(D,G,H\). A term such as \(D(x,G(o,y))\) is an instruction to look up two table entries. To evaluate it we choose a finite set \(A\), designate one element \(o^\fA\), and give each binary symbol a table on \(A\times A\). A second occurrence of \(G\), anywhere in the three expressions, reads the very same table.
+
+The resulting triple sends each input in \(A^3\) to one output in \(A^3\). Can we choose \(A\) with \(|A|\ge2\), and choose the tables, so that the triple gives a bijection? For a specified size \(n\), enumeration settles this: there are \(n\) choices for \(o\) and \(n^{n^2}\) choices for each binary table. The difficulty is deciding when the search over \emph{all} sizes can stop.
+
+For example, \((x,x,z)\) misses every output whose first two entries differ. By contrast, \((x,D(x,y),z)\) is reversible exactly when every row \(D(x,-)\) permutes the alphabet. Once the output tells us \(x\), we know which row to invert. The proof will use this simple observation with a more carefully chosen row index.
+
+\stephead{Why use group words?}
+A finite presentation gives finitely many generators and defining equations, called relators. A word \(w\) \emph{survives in a finite quotient} if there is a homomorphism onto a finite group in which the value of \(w\) differs from the identity. For one fixed finite presentation this question is undecidable as \(w\) varies (Bridson--Wilton, Theorem 2.1). We will turn each word into three expressions \(T_w\) satisfying
+\[
+ \text{\(T_w\) is bijective on some finite \(A^3\), \(|A|\ge2\)}
+ \quad\Longleftrightarrow\quad
+ \text{\(w\) survives in a finite quotient.}
+\]
+The small presentation \(\langle g\mid g^2=1\rangle\) will illustrate both directions. The undecidability input is the fixed presentation in the cited theorem.
+
+\stephead{How three outputs can express many conditions}
+Compose a list of triples by substituting all three outputs of one into the next. Substitution produces three ordinary terms. If one stage on a finite cube has image size less than \(|A|^3\), the composite has image size at most that small, wherever that stage occurs. Thus a bijective composite makes every stage bijective. We can reuse the same three coordinates for any finite list of tests.
+
+To follow the proof, first read how one identity is forced (\S\ref{marker}), then how the identities and a moving point give a finite group (\S\ref{letters}). Sections \ref{witness} and \ref{example} construct and test explicit tables. Section \ref{gap} explains where the extra output enters.
+\newpage
+\section{How an equation follows from a table row}\label{marker}
+Imagine a test that copies its first and third inputs and sends the middle input through a row of \(G\). Fix the copied inputs. To cover every output with that first and third coordinate, the selected row must contain every element of \(A\). We arrange that only one row can do this. Its index then tells us that an equation holds.
+
+Here and in \S\ref{letters} start with \emph{arbitrary} tables making the composite bijective. Suppress interpretation superscripts and write
+\[
+ L_{a,z}(s)=D(a,G(z,s)),\qquad U_a=L_{a,o}.
+\]
+A superscript \(2\) on a unary map means apply it twice. The first test
+\(C(i,j,k)=(j,D(i,j),k)\) is bijective. Fixing its first and last outputs shows that each column \(i\mapsto D(i,j)\) is a permutation. In particular we can solve \(D(i,j)=s\) for any fixed \(j,s\).
+
+\stephead{The collision that isolates a single row}
+Circle the entry \(G(o,o)\). Suppose that the same value appeared at \(G(c,s)\) with \(c\ne o\). The second test is
+\[
+ M(a,u,z)=\bigl(a,U_u^2(y),U_u^2(L_{u,z}(y))\bigr),
+ \qquad y=L_{a,z}^2(U_a(o)).
+\]
+Use column surjectivity to choose \(a\) with \(D(a,G(o,o))=s\). Now \(U_a(o)=s\), and \(L_{a,c}(s)=s\) because the circled entries agree. Put \(h=U_a^2(s)\). Use column surjectivity again to choose \(v\) with \(D(v,G(o,h))=h\), so \(U_v(h)=h\). Read across the two rows.
+\[
+\begin{array}{c@{\qquad}l@{\qquad}l}
+ \toprule
+ \text{input to }M & \text{intermediate } y & \text{output of }M\\\midrule
+ (a,a,c) & L_{a,c}^{2}(s)=s & (a,U_a^{2}(s),U_a^{2}(s))=(a,h,h)\\
+ (a,v,o) & U_a^{2}(s)=h & (a,U_v^{2}(h),U_v^{3}(h))=(a,h,h)\\\bottomrule
+\end{array}
+\]
+The two choices serve different purposes. The first gives a fixed point for \(L_{a,c}\), and the second makes the output \(h\) persist under \(U_v\). The inputs differ in their third coordinates. Thus bijectivity forbids a second row containing \(G(o,o)\). Every row that is onto must contain that value and must therefore have index \(o\).
+
+\stephead{Reading off the forced equation}
+For a unary term \(t\), use \(R_t(x,v,z)=(x,G(D(t(x),x),v),z)\). Fix \(x,z\). Surjectivity forces the selected row to be onto, hence \(D(t(x),x)=o\). The test \(R_{\id}\) gives \(D(x,x)=o\). Comparing these equal entries in the \emph{same column} and using column injectivity gives \(t(x)=x\). This holds for every \(x\).
+\newpage
+\section{Reading a finite group from arbitrary tables}\label{letters}
+For each generator \(g_i\) make two unary terms, one for \(g_i\) and one for its formal inverse. We can have arbitrarily many such terms with one binary symbol \(H\). Number the signed letters \(\lambda_1,\ldots,\lambda_{2m}\) and form the ground terms
+\[
+ c_0=o,\qquad c_j=H(o,c_{j-1}),\qquad S_{\lambda_j}(x)=H(c_j,x).
+\]
+Each \(c_j\) selects a row of the shared table \(H\). Distinct letters may select the same row in an interpretation. This is harmless: distinct group generators can have the same image. Read a signed word left to right as a composition, with its rightmost letter acting first. Write \([v]\) for the resulting unary term.
+
+Include the column and marker tests and \(R_{\id}\). For each generator and each relator add the row tests for these identities:
+\[
+ S_{g_i}S_{g_i^{-1}}=\id,\qquad S_{g_i^{-1}}S_{g_i}=\id,\qquad [r_j]=\id .
+\]
+Section \ref{marker} gives these as equalities of maps on all of \(A\). The two letter maps are inverse permutations. Since the relators hold, sending a generator to its permutation gives a homomorphism from the presented group \(P\) to \(\sym(A)\). The group operation is composition of these permutations.
+
+\stephead{Forcing a word to move one point}
+Set \(b=[w](o)\) and append one last test,
+\[
+ E_b(v,t,z)=\bigl(D(G(o,v),t),\ D(G(b,v),t),\ z\bigr).
+\]
+If \(b=o\), its first two outputs agree for every input. For any distinct \(i,j\in A\), all triples \((i,j,z)\) would be missing. The last test is onto, so \(b\ne o\). The image of \(P\) in \(\sym(A)\) is a finite group, the map onto its image is surjective, and the image of \(w\) moves \(o\). This is the required finite quotient.
+
+\stephead{Try the converse on three points}
+Take \(P=\langle g\mid g^2=1\rangle\), \(w=g\), and suppose some tables give a bijection on three points. The two inverse tests make the letter map for \(g\) a permutation. The relator test says its square fixes every point. The last test says \(g\) moves \(o\). An involution on three points that moves \(o\) exchanges it with one other point and fixes the third. You have recovered an order-two image group directly from arbitrary tables.
+
+\checkit{Could the same construction succeed for \(w=g^2\) by changing the table \(H\)?}
+\answer{No. Every table choice that passes the relator test has \([g^2](o)=o\), making the last test miss every off-diagonal pair. This reasoning works at every finite size.}
+\newpage
+\section{Building tables from a separating finite quotient}\label{witness}
+For the reverse implication we are free to \emph{choose} tables. Let \(\phi:P\twoheadrightarrow K\) be a finite quotient with \(\phi(w)\ne1_K\). We want each letter to act by left multiplication on \(K\), and each letter needs an address at which we can find its row. Take
+\[
+ A=K\times\{0,\ldots,2m\},\qquad o^\fA=(1_K,0).
+\]
+Choose \(H^\fA(o^\fA,(1_K,j-1))=(1_K,j)\) for \(1\le j\le 2m\). The resulting tags are \(c_j^\fA=(1_K,j)\). In the row at that tag set
+\[
+ H^\fA\bigl((1_K,j),(h,t)\bigr)=(\phi(\lambda_j)h,t).
+\]
+The tag-building row and the letter rows have distinct addresses. Fill the unused entries arbitrarily. All inverse and relator equations hold by multiplication in \(K\), and \(b^\fA=(\phi(w),0)\ne o^\fA\).
+
+\stephead{Tables that make each test reversible}
+Number the points of \(A\) from \(0\) to \(n-1\), with \(o^\fA\) numbered \(0\). Use modular arithmetic as a convenient way to write the table entries:
+\[
+ D^\fA(i,j)=i-j,\qquad G^\fA(0,s)=-s,\qquad G^\fA(z,s)=-z\quad(z\ne0).
+\]
+These formulae are instructions for this witness only. Every column of \(D^\fA\) is a permutation. For each required identity \(t^\fA(x)=x\), its row test sends \((x,v,z)\) to \((x,-v,z)\). To check \(M^\fA\), keep its first coordinate \(a\) and call the other outputs \(X,Y\):
+\[
+\begin{array}{c|cc|l}
+ &X&Y&\text{how to recover }u\\ \hline
+ z=0&2u+3a&3u+3a&Y-X\\
+ z\ne0&2u+a+z&3u+z&Y-X+a
+\end{array}
+\]
+In both rows \(3X-2Y-3a=z\). Recover \(z\) first, then use its row to recover \(u\). This uses no division and works for composite \(n\). If \(\beta\ne0\) numbers the point \(b^\fA\), the first two outputs of \(E_b^\fA\) are \(X=-v-t,\ Y=-\beta-t\). Now \(t=-\beta-Y\) and \(v=-X-t\). All the tests are reversible on the same alphabet.
+
+\checkit{For \(n=6,\ a=1\), the marker outputs \(X=2,\ Y=3\). Which inputs produced them?}
+\answer{\(z=6-6-3\equiv3\pmod6\). The second row gives \(u=3-2+1=2\). Forward substitution gives \((8,9)\equiv(2,3)\), as required.}
+\newpage
+\section{A three-point witness you can check by hand}\label{example}
+Return to \(P=\langle g\mid g^2=1\rangle\) and \(w=g\). On \(A=\{0,1,2\}\), take \(o=0\) and use the following tables. The first argument selects a row and the second a column.
+\[
+ \begin{array}{c|ccc}D&0&1&2\\\hline0&0&1&2\\1&2&0&1\\2&1&2&0\end{array}
+ \qquad
+ \begin{array}{c|ccc}G&0&1&2\\\hline0&0&1&2\\1&1&1&1\\2&2&2&2\end{array}
+ \qquad
+ \begin{array}{c|ccc}H&0&1&2\\\hline0&1&2&0\\1&1&0&2\\2&1&0&2\end{array}
+\]
+The tags are \(H(0,0)=1\) and \(H(0,1)=2\). Rows 1 and 2 of \(H\) both implement \(\tau=(0\,1)\). Thus \(\tau^2=\id\), the relator and inverse equations hold, and \(b=\tau(0)=1\). Every genuine identity selects row zero of \(G\), where the row test leaves \(v\) unchanged.
+
+\stephead{Follow one input through the seven tests}
+Here \(D(i,j)=j-i\bmod3\). The test \(C\) is bijective because each of its columns permutes all three symbols. Substitution into \(M\) shows that it preserves \(a,z\). Its middle output is \(u\) when \(z=0\), and \(u-a+z\bmod3\) otherwise. The four row tests are identity maps. The last test gives \(E_b(v,t,z)=(t-v,t-1,z)\). For example,
+\[
+ (2,0,1)\ \xmapsto{C}\ (0,1,1)\ \xmapsto{M}\ (0,2,1)\
+ \xmapsto{\text{four row tests}}\ (0,2,1)\
+ \xmapsto{E_b}\ (2,1,1).
+\]
+Every stage is invertible. An alleged additional identity \(g(x)=x\) would fail visibly. At \(x=0\), the row index would be \(D(\tau(0),0)=D(1,0)=2\). Row 2 of \(G\) is constant: all three middle inputs would give the same output.
+
+\stephead{Where is the group law?}
+Consider the term \(x\oplus y=D(x,D(o,y))\). For the cyclic witness on the previous page it gives \(x+y\). In the present tables it gives \(y-x\) modulo three. In particular
+\[
+ (1\oplus0)\oplus0=1,\qquad 1\oplus(0\oplus0)=2.
+\]
+The permutation triple is fully reversible even with this nonassociative operation. The group that detects \(g\) is \(\{\id,\tau\}\), with composition as its operation. Its elements are \emph{maps} on the three points.
+
+\checkit{If \(o\) were the point fixed by \(\tau\), would these same letter actions suffice for \(w=g\)?}
+\answer{The word would fix \(o\), making the first two outputs of \(E_b\) equal. The construction needs a distinguished point that witnesses the word moving.}
+\newpage
+\section{Why one more output changes the decision problem}\label{gap}
+For a tuple \(T\), let \(\disp_n(T)\) be the largest possible image size over all choices of shared tables on \(n\) symbols. Fix \(d\ge3\). In each question we are allowed to choose the size \(n\ge2\). Both questions concern the same inputs, already with \(d+1\) listed variables and \(d+1\) outputs.
+
+\stephead{At the threshold \(n^d\)}
+From \(T_w\), append \(d-3\) coordinates \(\mathbf y\) copied unchanged, one unused input \(z\), and one constant output \(o\):
+\[
+ (\mathbf x,\mathbf y,z)\longmapsto(T_w(\mathbf x),\mathbf y,o).
+\]
+For any interpretation the image size is exactly \(n^{d-3}|\operatorname{im}T_w^\fA|\). It reaches \(n^d\) precisely when the triple is bijective. Consequently an algorithm deciding the \(n^d\) question would decide finite-quotient survival. At \(d=3\), the fourth output is just a constant. On a three-symbol alphabet one missing triple would leave at most \(26\) outputs instead of \(27\), however the fourth input is varied.
+
+\stephead{At the threshold \(n^d+1\)}
+For a general input tuple, draw the graph of its distinct subterms, merging repeated occurrences. Add the input variables and draw arrows from immediate arguments to the term they form. A \emph{cut} meets every path from an input to an output, including a length-zero path when an input is an output. Let \(\rho\) be the smallest cut size and \(s\) the number of vertices. Values on a cut determine all outputs, hence \(\disp_n(T)\le n^\rho\). This already rules out the extra output if \(\rho\le d\).
+
+In the opposite direction the term-cut theorem gives \(\disp_{sm}(T)\ge m^\rho\). If \(\rho\ge d+1\), choose \(m=s^d+1\), so \(m^\rho\ge m^{d+1}>(sm)^d\). There is at least one extra output at \(n=sm\). Thus it suffices to compute \(\rho\), a polynomial-time vertex-cut calculation by max-flow. A large witness alphabet never has to be constructed by the decision algorithm.
+
+\stephead{An example on the easy side}
+For the identity tuple \((x,y,z,u)\) the four disjoint length-zero paths give \(\rho=4\). At \(d=3,n=2\) its \(16\) outputs exceed \(2^3+1=9\). For a padded hard tuple with \(d=3\), the constant fourth output caps the image at \(n^3\), even when the underlying word survives. Other tuples in the same input class can pass the higher threshold. The two thresholds therefore concern the same set of possible input tuples.
+
+\stephead{What if recovery is expressed by equations?}
+For each input coordinate introduce a fresh decoder \(h_i\) and ask for \(h_i(T(\mathbf x))=x_i\) simultaneously. Inputs with the same output must receive the same decoded tuple, so at most one input in each fibre is recovered. Choose one representative of each nonempty fibre and use its coordinates as the decoder values. The number recovered equals the image size. For example, on two bits \(T(x,y)=x\) has two fibres. The decoder \(s\mapsto(s,0)\) recovers precisely \((0,0)\) and \((1,0)\). This explains the equality-only decoder formulation of the same gap.
+\newpage
+\section{Where the proof is checked}\label{verification}
+The Lean project accompanying the note contains literal term syntax, the compiler, the two implications relating bijectivity to finite groups, and the exact count after padding. These statements can be located by name even outside a Lean editor.
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}>{\raggedright\arraybackslash}X@{}}
+\toprule Question & Where to look in the accompanying \texttt{lean/} directory\\ \midrule
+What are the three terms? & \texttt{SquareTerms.lean}, definitions \texttt{column}, \texttt{marker}, \texttt{row}, \texttt{separator} and \texttt{compile}.\\[3pt]
+Why do arbitrary tables force equations? & \texttt{Cycle372Collision.lean} proves marker exclusivity. \texttt{SquareSoundness.lean} uses the row and word tests.\\[3pt]
+Can every separating finite quotient yield tables? & \texttt{SquareWitness.lean} constructs them. \texttt{SquareReduction.lean} joins the two directions in \texttt{compiledTriple\_iff\_finiteQuotient}.\\[3pt]
+Where does the gap enter? & \texttt{SquareGap.lean} proves the exact padded threshold and the strict criterion from explicit cut and routing hypotheses.\\
+\bottomrule
+\end{tabularx}\end{center}
+In the paper the routing estimate at alphabet sizes \(sm\) suffices. Lean's numerical lemma uses the eventual estimate \(n^\rho\le K\,\disp_n(T)\), for a fixed \(K\) and all sufficiently large \(n\). The same published term-cut theorem supplies both estimates. The undecidability input about finite groups and the polynomial-time analysis of max-flow are cited results. The accompanying build instructions identify the dependencies and the checked statements.
+
+\stephead{How this fits with the earlier one-unit paper}
+In \emph{One Unit Separates Polynomial Time from Undecidability in Term Coding}, the first two outputs are \(x,y\) and the inputs satisfy \(x\ne y\), with further disequality tests permitted. For \(d\ge2\) the adjacent thresholds there are \(n^d-n^{d-1}\) and \(n^d-n^{d-1}+1\). The factor \(n(n-1)\) counts ordered pairs of different symbols. Its 71-module Lean development checks the filtered construction, finite-group reduction, cut and routing arguments, and the strict criterion. The present construction admits the whole cube and obtains the adjacent thresholds \(n^d\) and \(n^d+1\) for \(d\ge3\). The new step is to enforce equations on every point by reversibility of ordinary terms.
+
+\stephead{Further reading}
+{\small
+\href{https://arxiv.org/html/2504.16265v4#S8}{Riis, \emph{One Unit Separates Polynomial Time from Undecidability in Term Coding}, \S8}, with
+\href{https://github.com/SR123/term-coding-disequality-lean}{earlier Lean sources} and
+\href{https://doi.org/10.5281/zenodo.22727895}{archived earlier verification}.
+
+\href{https://arxiv.org/html/2602.08110v2#S5}{Riis, \emph{Term Coding and Dispersion}, Theorem 5.5 and \S5.5} gives the term-cut bounds and algorithm. Problem 6.1 asks the three-variable question.
+
+\href{https://doi.org/10.1007/s00222-015-0578-8}{Bridson and Wilton, \emph{The triviality problem for profinite completions}}, Theorem 2.1, gives the fixed presentation used as the starting point.}
+\end{document}

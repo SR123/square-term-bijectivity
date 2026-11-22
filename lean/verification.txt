@@ -1,0 +1,51 @@
+Verification (UTC) 2026-11-22T13:39:33+00:00
+Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)
+Mathlib v4.26.0, pinned to 2df2f0150c275ad53cb3c90f7c98ec15a56a1a67.
+Eight project modules compiled from source into an empty directory with warnings treated as errors.
+
+PASS  Cycle372Collision.lean  sha256 f08fa6e98afd3bc7a79d133b68d7589b5c94637dbfd12179298b30fbdc430056
+'Cycle372.exclusive' depends on axioms: [propext]
+'Cycle372.constancy' depends on axioms: [propext]
+'Cycle372.compile_identity' depends on axioms: [propext]
+'Cycle372.decoder_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Cycle372.decoder_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+PASS  SquareGroups.lean  sha256 8fd370eb530a4dac870af7ac46c07ad7a75ee5fd0a5afecb32eb80bdec180f98
+PASS  SquareTerms.lean  sha256 b2a4af99eaaac8ae744cf4b13bf5760f71aea924c97943426ba4472c8ebd96b9
+PASS  SquareSoundness.lean  sha256 76464786f3b5c9d2f35499c67414e9e02a97b7fd0f52f98a1003d82174e4cc9c
+PASS  SquareWitness.lean  sha256 eb57be0b1d1466e0dbccd467162ef6f10ee9adf214f2e001402c7fed3242f2e2
+PASS  SquareReduction.lean  sha256 96b04ba558ad420eecc5c30466df4e2153cedc18e6604079d3cda66cd5104e1d
+'SquareBijection.compiledTriple_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.arbitraryFiniteCarrier_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+PASS  PaperTriple.lean  sha256 a6f9a87f06907f4b08f73e8930e38b43d79b477ec87d76de90041ed7dc9b3e67
+'SquareBijection.PaperTriple.finiteHom_passes_at_its_order' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.PaperTriple.originalTriple_iff_finiteQuotient' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+PASS  SquareGap.lean  sha256 32a3c3984bf024802e17785ceba0b1e50ed60de716a6fe9274b60fe4c914a5d0
+'SquareBijection.exact_maximum_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.decoder_attains_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.padded_exact_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.oneUnit_iff_cutExponent' depends on axioms: [propext, Quot.sound]
+
+Signatures in the fresh build:
+SquareBijection.PaperTriple.originalTriple_iff_finiteQuotient {m : ℕ} (rels : List (Word m)) (w : Word m) :
+  (∃ A x, ∃ (_ : Nontrivial A), ∃ I, Function.Bijective (PaperTriple.run I (PaperTriple.compile rels w))) ↔
+    DisequalityDispersion.HasFiniteQuotient rels w
+SquareBijection.PaperTriple.finiteHom_passes_at_its_order {m : ℕ} {Q : Type} [Group Q] [Fintype Q]
+  (rels : List (Word m)) (w : Word m) (φ : DisequalityDispersion.WordPresentation rels →* Q)
+  (hw : φ (DisequalityDispersion.presentedWord rels w) ≠ 1) :
+  ∃ I, Function.Bijective (PaperTriple.run I (PaperTriple.compile rels w))
+SquareBijection.compiledTriple_iff_finiteQuotient {m : ℕ} (rels : List (Word m)) (w : Word m) :
+  HasBijectiveInterpretation (compile rels w) ↔ DisequalityDispersion.HasFiniteQuotient rels w
+SquareBijection.arbitraryFiniteCarrier_iff_finiteQuotient {m : ℕ} (rels : List (Word m)) (w : Word m) :
+  (∃ A x, ∃ (_ : Nontrivial A), ∃ I, Function.Bijective (run I (compile rels w))) ↔
+    DisequalityDispersion.HasFiniteQuotient rels w
+SquareBijection.exact_maximum_iff_finiteQuotient {m : ℕ} (rels : List (Word m)) (w : Word m) (k : ℕ) :
+  (∃ n, 2 ≤ n ∧ n ^ (3 + k) ≤ paddedDispersion n k (compile rels w)) ↔ DisequalityDispersion.HasFiniteQuotient rels w
+SquareBijection.padded_exact_iff_finiteQuotient {m : ℕ} (rels : List (Word m)) (w : Word m) (k : ℕ) :
+  (∃ n, 2 ≤ n ∧ ∃ I, n ^ (3 + k) ≤ (Finset.image (padded (run I (compile rels w)) I.o) Finset.univ).card) ↔
+    DisequalityDispersion.HasFiniteQuotient rels w
+SquareBijection.oneUnit_iff_cutExponent (delta : ℕ → ℕ) (rho d : ℕ) (cut : ∀ (n : ℕ), 2 ≤ n → delta n ≤ n ^ rho)
+  (routing : ∃ K N, ∀ (n : ℕ), N ≤ n → n ^ rho ≤ K * delta n) : (∃ n, 2 ≤ n ∧ n ^ d + 1 ≤ delta n) ↔ d + 1 ≤ rho
+SquareBijection.decoder_attains_image {X Y : Type} [Fintype X] [Nonempty X] [DecidableEq X] [DecidableEq Y]
+  (f : X → Y) : ∃ g, (recovered f g).card = (Finset.image f Finset.univ).card

@@ -1,0 +1,31 @@
+Fresh compilation of the eight distributed Lean modules
+UTC 2026-11-22 18:59
+Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)
+Every dependency checkout matched its revision in lake-manifest.json. Dependency libraries were reused. The output directory for the eight project modules was empty.
+Each module was compiled once, in the order below, with -DwarningAsError=true.
+
+PASS  Cycle372Collision.lean  sha256 f08fa6e98afd3bc7a79d133b68d7589b5c94637dbfd12179298b30fbdc430056
+'Cycle372.exclusive' depends on axioms: [propext]
+'Cycle372.constancy' depends on axioms: [propext]
+'Cycle372.compile_identity' depends on axioms: [propext]
+'Cycle372.decoder_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Cycle372.decoder_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+PASS  SquareGroups.lean  sha256 8fd370eb530a4dac870af7ac46c07ad7a75ee5fd0a5afecb32eb80bdec180f98
+PASS  SquareTerms.lean  sha256 b2a4af99eaaac8ae744cf4b13bf5760f71aea924c97943426ba4472c8ebd96b9
+PASS  SquareSoundness.lean  sha256 76464786f3b5c9d2f35499c67414e9e02a97b7fd0f52f98a1003d82174e4cc9c
+PASS  SquareWitness.lean  sha256 eb57be0b1d1466e0dbccd467162ef6f10ee9adf214f2e001402c7fed3242f2e2
+PASS  SquareReduction.lean  sha256 96b04ba558ad420eecc5c30466df4e2153cedc18e6604079d3cda66cd5104e1d
+'SquareBijection.compiledTriple_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.arbitraryFiniteCarrier_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+PASS  PaperTriple.lean  sha256 a6f9a87f06907f4b08f73e8930e38b43d79b477ec87d76de90041ed7dc9b3e67
+'SquareBijection.PaperTriple.finiteHom_passes_at_its_order' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.PaperTriple.originalTriple_iff_finiteQuotient' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+PASS  SquareGap.lean  sha256 32a3c3984bf024802e17785ceba0b1e50ed60de716a6fe9274b60fe4c914a5d0
+'SquareBijection.exact_maximum_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.decoder_attains_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.padded_exact_iff_finiteQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SquareBijection.oneUnit_iff_cutExponent' depends on axioms: [propext, Quot.sound]
+
+All eight project modules passed.
